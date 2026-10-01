@@ -1,10 +1,13 @@
-from flask import Flask
+from flask import Flask, render_template
+from database import initialize_database, get_all_books
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return '<h1>My Book App</h1><p>Coming soon.</p>'
+    books = get_all_books()
+    return render_template('home.html', books=books)
 
 if __name__ == '__main__':
+    initialize_database()
     app.run(debug=True)

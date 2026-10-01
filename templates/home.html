@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Book App</title>
+    </head>
+    <body>
+        <h1>My Books</h1>
+        <ul>
+            {% for book in books %}
+                <li>{{ book[1] }} by {{ book[2] }} - {{ book[3] }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>
