@@ -54,7 +54,9 @@ def add_book(title, author, status):
             (title, author, status)
         )
         connection.commit()
+        new_id = cursor.lastrowid
         connection.close()
+        return new_id
 
 def get_all_books():
         connection = sqlite3.connect('books.db')
@@ -64,8 +66,37 @@ def get_all_books():
         connection.close()
         return rows
 
+def add_mood_tag(name):
+        connection = sqlite3.connect('books.db')
+        cursor = connection.cursor()
+        cursor.execute(
+            'INSERT OR IGNORE INTO mood_tags (name) VALUES (?)', 
+            (name,)
+        )
+        connection.commit()
+        connection.close()
+
+def get_all_mood_tags():
+        connection = sqlite3.connect('books.db')
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM mood_tags')
+        tags = cursor.fetchall()
+        connection.close()
+        return tags
+
+def tag_book(book_id, tag_id):
+        connection = sqlite3.connect('books.db')
+        cursor = connection.cursor()
+        cursor.execute(
+            'INSERT INTO book_mood_tags (book_id, mood_tag_id) VALUES (?, ?)', 
+            (book_id, tag_id)
+        )
+        connection.commit()
+        connection.close()
+
 
 if __name__ == "__main__":
     initialize_database()
-    add_book("The Alchemist", "Paulo Coelho", "TBR")
-    print(get_all_books())
+    for mood in ['Cozy', 'Dark', 'Emotional', 'Angsty', 'Reflective', 'Mysterious', 'Whimsical', 'Spooky', 'Adventurous', 'Informative']:
+        add_mood_tag(mood)
+    print(get_all_mood_tags())

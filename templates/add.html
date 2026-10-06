@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add a Book</title>
+    </head>
+    <body>
+        <h1>Add a Book</h1>
+        <form method="post">
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" required><br><br>
+            <label for="author">Author:</label><br>
+            <input type="text" id="author" name="author" required><br><br>
+            <label for="status">Status:
+                <select name="status">
+                    <option value="TBR">To Be Read</option>
+                    <option value="Currently Reading">Currently Reading</option>
+                    <option value="Finished">Finished</option>
+                    <option value="DNF">Did Not Finish</option>
+                    <option value="On Hold">On Hold</option>
+                </select>
+            </label><br>
+            <fieldset>
+                <legend>Moods:</legend>
+                {% for tag in moods %}
+                <label>
+                    <input type="checkbox" name="moods" value="{{tag[0]}}">{{tag[1]}}
+                </label><br>
+                {% endfor %}
+            </fieldset>
+            <button type="submit">Add Book</button>
+        </form>
+    </body>
+</html>
