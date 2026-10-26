@@ -94,9 +94,20 @@ def tag_book(book_id, tag_id):
         connection.commit()
         connection.close()
 
+def get_book_mood_tags(book_id):
+        connection = sqlite3.connect('books.db')
+        cursor = connection.cursor()
+        cursor.execute('''
+            SELECT mood_tags.name FROM mood_tags
+            JOIN book_mood_tags ON mood_tags.id = book_mood_tags.mood_tag_id
+            WHERE book_mood_tags.book_id = ?
+        ''', (book_id,))
+        tags = cursor.fetchall()
+        connection.close()
+        return tags
 
 if __name__ == "__main__":
     initialize_database()
     for mood in ['Cozy', 'Dark', 'Emotional', 'Angsty', 'Reflective', 'Mysterious', 'Whimsical', 'Spooky', 'Adventurous', 'Informative']:
         add_mood_tag(mood)
-    print(get_all_mood_tags())
+    print(get_book_mood_tags(6))

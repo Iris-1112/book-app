@@ -1,12 +1,17 @@
 from flask import Flask, render_template, request, redirect
-from database import get_all_mood_tags, initialize_database, get_all_books, add_book, tag_book
+from database import get_all_mood_tags, initialize_database, get_all_books, add_book, tag_book, get_book_mood_tags
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
     books = get_all_books()
-    return render_template('home.html', books=books)
+    books_with_moods = []
+    for book in books:
+        tags = get_book_mood_tags(book[0])
+        mood_names = [tag[0] for tag in tags]
+        books_with_moods.append((book, mood_names))
+    return render_template('home.html', books=books_with_moods)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
