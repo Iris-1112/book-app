@@ -106,8 +106,15 @@ def get_book_mood_tags(book_id):
         connection.close()
         return tags
 
+def get_random_tbr_book():
+        connection = sqlite3.connect('books.db')
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM books WHERE status = "TBR" ORDER BY RANDOM() LIMIT 1')
+        book = cursor.fetchone()
+        connection.close()
+        return book
+
 if __name__ == "__main__":
     initialize_database()
-    for mood in ['Cozy', 'Dark', 'Emotional', 'Angsty', 'Reflective', 'Mysterious', 'Whimsical', 'Spooky', 'Adventurous', 'Informative']:
-        add_mood_tag(mood)
-    print(get_book_mood_tags(6))
+    
+    print(get_random_tbr_book())

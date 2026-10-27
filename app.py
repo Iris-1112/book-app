@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-from database import get_all_mood_tags, initialize_database, get_all_books, add_book, tag_book, get_book_mood_tags
+from database import get_all_mood_tags, initialize_database, get_all_books, add_book, tag_book, get_book_mood_tags, get_random_tbr_book
 
 app = Flask(__name__)
 
@@ -26,6 +26,11 @@ def add():
         return redirect('/')
     moods = get_all_mood_tags()
     return render_template('add.html', moods=moods)
+
+@app.route('/shuffle')
+def shuffle():
+    book = get_random_tbr_book()
+    return render_template('shuffle.html', book=book)
 
 if __name__ == '__main__':
     initialize_database()
